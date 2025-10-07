@@ -26,7 +26,6 @@ public class TeacherAccountServiceImpl implements TeacherAccountService {
         t.setTeacher(teacher);
         t.setUserAccountId(userAccountId);
         t.setRole(role);
-        t.setEnabled(enabled);
         return teacherAccountRepository.save(t);
     }
 
@@ -46,7 +45,6 @@ public class TeacherAccountServiceImpl implements TeacherAccountService {
     public TeacherAccount update(Long id, String role, Boolean enabled) {
         TeacherAccount t = teacherAccountRepository.findById(id).orElseThrow();
         if (role != null) t.setRole(role);
-        t.setEnabled(enabled);
         return teacherAccountRepository.save(t);
     }
 

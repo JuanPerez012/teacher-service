@@ -30,7 +30,6 @@ public class TeacherServiceImpl implements TeacherService {
         Teacher t = new Teacher();
         t.setPersonId(personId);
         t.setSpecialty(specialty);
-        t.setStatus(status == null || status.isBlank() ? "ACTIVE" : status);
         t.setHireDate(hireDate);
         return teacherRepository.save(t);
     }
@@ -63,7 +62,6 @@ public class TeacherServiceImpl implements TeacherService {
     public Teacher update(Long id, String specialty, String status, LocalDate hireDate) {
         Teacher t = teacherRepository.findById(id).orElseThrow();
         if (specialty != null) t.setSpecialty(specialty);
-        if (status != null) t.setStatus(status);
         t.setHireDate(hireDate);
         return teacherRepository.save(t);
     }
