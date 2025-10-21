@@ -24,9 +24,8 @@
         <jacoco-maven-plugin.version>0.8.12</jacoco-maven-plugin.version>
         <mockito.version>5.14.2</mockito.version>
         <maven-failsafe-plugin.version>3.5.3</maven-failsafe-plugin.version>
-        <sonar.coverage.jacoco.xmlReportPaths>
-            ${project.build.directory}/site/jacoco/jacoco.xml
-        </sonar.coverage.jacoco.xmlReportPaths>	</properties>
+	</properties>
+
 	<dependencies>
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -111,7 +110,9 @@
                 <version>${maven-surefire-plugin.version}</version>
                 <configuration>
                     <useModulePath>false</useModulePath>
-                    <argLine>${jacocoArgLine} -Xshare:off</argLine>
+                    <argLine>
+                        @{argLine} -javaagent:"${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar" -Xshare:off
+                    </argLine>
                 </configuration>
             </plugin>
 
@@ -122,18 +123,13 @@
                 <executions>
                     <execution>
                         <id>prepare-agent</id>
-                        <phase>initialize</phase>
                         <goals>
                             <goal>prepare-agent</goal>
                         </goals>
-                        <configuration>
-                            <propertyName>jacocoArgLine</propertyName>
-                            <append>true</append>
-                        </configuration>
                     </execution>
                     <execution>
                         <id>report</id>
-                        <phase>verify</phase>
+                        <phase>test</phase>
                         <goals>
                             <goal>report</goal>
                         </goals>
@@ -152,7 +148,9 @@
                 <artifactId>maven-failsafe-plugin</artifactId>
                 <version>${maven-failsafe-plugin.version}</version>
                 <configuration>
-                    <argLine>${jacocoArgLine} -Xshare:off</argLine>
+                    <argLine>
+                        @{argLine} -javaagent:"${settings.localRepository}/org/mockito/mockito-core/${mockito.version}/mockito-core-${mockito.version}.jar" -Xshare:off
+                    </argLine>
                 </configuration>
             </plugin>
         </plugins>
