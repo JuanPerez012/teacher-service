@@ -4,7 +4,6 @@ import com.teachermicroservice.dto.request.TeacherRequestDTO;
 import com.teachermicroservice.dto.response.PaginatedResponse;
 import com.teachermicroservice.dto.response.TeacherResponseDTO;
 import com.teachermicroservice.entity.Teacher;
-import com.teachermicroservice.enums.Gender;
 import com.teachermicroservice.exception.TeacherNotFoundException;
 import com.teachermicroservice.mapper.TeacherMapper;
 import com.teachermicroservice.repository.ITeacherRepository;
@@ -44,13 +43,6 @@ class TeacherServiceTest {
     @BeforeEach
     void setUp() {
         req = new TeacherRequestDTO(
-                "Ada",
-                "Lovelace",
-                "ada.lovelace@example.com",
-                LocalDate.of(1990, 12, 10),
-                "FEMENINO",
-                "3001234567",
-                "Calle 123 #45-67",
                 "Ingeniería de Software",
                 LocalDate.of(2020, 1, 15),
                 bd("8500.00"),
@@ -60,13 +52,6 @@ class TeacherServiceTest {
 
         entity = new Teacher();
         entity.setId(1L);
-        entity.setFirstName("Ada");
-        entity.setLastName("Lovelace");
-        entity.setEmail("ada.lovelace@example.com");
-        entity.setBirthDate(LocalDate.of(1990, 12, 10));
-        entity.setGender(Gender.FEMENINO);
-        entity.setPhone("3001234567");
-        entity.setAddress("Calle 123 #45-67");
         entity.setSpecialty("Ingeniería de Software");
         entity.setHireDate(LocalDate.of(2020, 1, 15));
         entity.setSalary(bd("8500.00"));
@@ -75,12 +60,6 @@ class TeacherServiceTest {
 
         resp = new TeacherResponseDTO(
                 1L,
-                "Ada",
-                "Lovelace",
-                "ada.lovelace@example.com",
-                "FEMENINO",
-                "3001234567",
-                "Calle 123 #45-67",
                 "Ingeniería de Software",
                 LocalDate.of(2020, 1, 15),
                 bd("8500.00"),
@@ -98,7 +77,6 @@ class TeacherServiceTest {
         TeacherResponseDTO out = service.createTeacher(req);
 
         assertNotNull(out);
-        assertEquals("Ada", out.firstName());
         verify(mapper).toEntity(req);
         verify(repository).save(entity);
         verify(mapper).toResponseDTO(entity);
@@ -172,10 +150,6 @@ class TeacherServiceTest {
         when(repository.findById(1L)).thenReturn(Optional.of(entity));
 
         Teacher mapped = new Teacher();
-        mapped.setFirstName("Grace");
-        mapped.setLastName("Hopper");
-        mapped.setEmail("grace.hopper@example.com");
-        mapped.setGender(Gender.FEMENINO);
         mapped.setHireDate(LocalDate.of(2021, 3, 10));
         mapped.setSalary(bd("9200.00"));
         mapped.setSpecialty("Compiladores");
@@ -184,10 +158,6 @@ class TeacherServiceTest {
 
         Teacher saved = new Teacher();
         saved.setId(1L);
-        saved.setFirstName("Grace");
-        saved.setLastName("Hopper");
-        saved.setEmail("grace.hopper@example.com");
-        saved.setGender(Gender.FEMENINO);
         saved.setHireDate(LocalDate.of(2021, 3, 10));
         saved.setSalary(bd("9200.00"));
         saved.setSpecialty("Compiladores");
@@ -195,8 +165,7 @@ class TeacherServiceTest {
         saved.setDepartment("Sistemas");
 
         TeacherResponseDTO updatedResp = new TeacherResponseDTO(
-                1L, "Grace", "Hopper", "grace.hopper@example.com", "FEMENINO",
-                null, null, "Compiladores", LocalDate.of(2021, 3, 10),
+                1L, "Compiladores", LocalDate.of(2021, 3, 10),
                 bd("9200.00"), "Asociada", "Sistemas"
         );
 
@@ -207,7 +176,6 @@ class TeacherServiceTest {
         TeacherResponseDTO out = service.updateTeacher(1L, req);
 
         assertEquals(1L, out.id());
-        assertEquals("Grace", out.firstName());
 
         ArgumentCaptor<Teacher> cap = ArgumentCaptor.forClass(Teacher.class);
         verify(repository).findById(1L);

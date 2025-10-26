@@ -1,14 +1,15 @@
 package com.teachermicroservice.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import java.math.BigDecimal;
 import java.time.LocalDate;
 
 @Entity
 @Table(name = "teachers")
-public class Teacher extends Person{
+public class Teacher {
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
 
     @Column(nullable = false, length = 120)
     private String specialty;
@@ -24,6 +25,14 @@ public class Teacher extends Person{
 
     @Column(length = 100)
     private String department;
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
 
     public String getSpecialty() {
         return specialty;
