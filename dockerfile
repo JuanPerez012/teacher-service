@@ -1,15 +1,10 @@
-# ------ build ------
-FROM maven:3.9.9-eclipse-temurin-17 AS build
+FROM eclipse-temurin:21-jre
 WORKDIR /app
-COPY pom.xml .
-RUN mvn -q -DskipTests dependency:go-offline
-COPY src ./src
-RUN mvn -q -DskipTests package
+ARG JAR_FILE=target/*.jar
+COPY ${JAR_FILE} app.jar
 
-# ------ run ------
-FROM eclipse-temurin:17-jre-alpine
-ENV TZ=America/Bogota
-WORKDIR /app
-COPY --from=build /app/target/*.jar app.jar
-EXPOSE 8081
-ENTRYPOINT ["java","-Dspring.profiles.active=docker","-jar","/app/app.jar"]
+# Ajustes Java opcionales (memoria, GC, etc.)
+ENV JAVA_OPTS=""
+
+# El perfil te lo paso por env en compose si lo usas
+ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar /app/app.jar"]
