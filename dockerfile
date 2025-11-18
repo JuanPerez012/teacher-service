@@ -1,10 +1,13 @@
 FROM eclipse-temurin:21-jre
+
 WORKDIR /app
+
 ARG JAR_FILE=target/*.jar
+
 COPY ${JAR_FILE} app.jar
 
-# Ajustes Java opcionales (memoria, GC, etc.)
-ENV JAVA_OPTS=""
+ENV JAVA_OPTS="-XX:+UseContainerSupport -XX:MaxRAMPercentage=75"
 
-# El perfil te lo paso por env en compose si lo usas
-ENTRYPOINT ["sh","-c","java $JAVA_OPTS -jar /app/app.jar"]
+EXPOSE 8082
+
+ENTRYPOINT ["sh", "-c", "java $JAVA_OPTS -jar /app/app.jar"]
