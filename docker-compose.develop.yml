@@ -1,0 +1,7 @@
+services:
+  teacher-service:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: teacher-service:local
+    ports: ["8082:8082"]

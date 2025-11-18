@@ -1,0 +1,4 @@
+services:
+  teacher-service:
+    image: teacher-service:qa
+    ports: ["8082:8082"]

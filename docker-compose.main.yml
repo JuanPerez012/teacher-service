@@ -1,0 +1,3 @@
+services:
+  teacher-service:
+    image: teacher-service:main
