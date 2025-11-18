@@ -1,6 +1,5 @@
 package com.teachermicroservice;
 
-import com.teachermicroservice.config.CorsConfig;
 import com.teachermicroservice.controller.TeacherController;
 import com.teachermicroservice.exception.handler.GlobalExceptionHandler;
 import com.teachermicroservice.mapper.TeacherMapper;
@@ -53,8 +52,7 @@ class TeachermicroserviceApplicationTests {
                 TeacherService.class,
                 TeacherMapper.class,
                 ITeacherRepository.class,
-                GlobalExceptionHandler.class,
-                CorsConfig.class
+                GlobalExceptionHandler.class
         );
 
     }
